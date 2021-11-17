@@ -147,3 +147,30 @@ function forecastSearch() {
     });
 }
 
+function saveSearch(search) {
+    if(!searchHistory.includes(search)) {
+        searchHistory.push(search);
+        localStorage.setItem("history", JSON.stringify(searchHistory));
+    }
+}
+
+function renderSearch() {
+    while(document.getElementById("history").firstChild) {
+        document.getElementById("history").removeChild(document.getElementById("history").firstChild);
+    }
+    searchList();
+}
+
+function searchList() {
+    searchHistory.forEach(function(search) {
+        var historyItem = document.createElement("li");
+        historyItem.className = "list-group-item";
+        historyItem.textContent = search;
+
+        historyItem.addEventListener("click", function(event) {
+            weatherSearch(event.target.textContent);
+            forecastSearch(event.target.textContent);
+        });
+        document.getElementById("history").appendChild(historyItem);
+    });
+}
